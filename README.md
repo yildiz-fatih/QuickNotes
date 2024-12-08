@@ -1,10 +1,10 @@
 # **QuickNotes**
 
 ## **Why I Did This?**
-I created this project to transition from building ASP.NET Core Web APIs to ASP.NET Core MVC.
+I made this project to help myself transition from building ASP.NET Core Web APIs to ASP.NET Core MVC.
 
 ---
-## **How to Use the Project**
+## **How to Use the App**
 
 ### **Prerequisites**
 1. Install [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
