@@ -11,8 +11,8 @@ using QuickNotes.Data;
 namespace QuickNotes.Data.Migrations
 {
     [DbContext(typeof(QuickNotesDbContext))]
-    [Migration("20241208155948_AddedTitle")]
-    partial class AddedTitle
+    [Migration("20241208185829_Mig1")]
+    partial class Mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

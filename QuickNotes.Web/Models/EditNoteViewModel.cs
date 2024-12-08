@@ -1,6 +1,6 @@
-namespace QuickNotes.Business.DTOs.Note;
+namespace QuickNotes.Web.Models;
 
-public class UpdateNoteRequest
+public class EditNoteViewModel
 {
     public int Id { get; set; }
     public string Title { get; set; }

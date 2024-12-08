@@ -46,6 +46,34 @@ public class HomeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    public async Task<IActionResult> EditNote([FromRoute] int id)
+    {
+        var noteResponse = await _noteService.GetAsync(id);
+
+        var editNoteViewModel = new EditNoteViewModel()
+        {
+            Id = id,
+            Title = noteResponse.Title,
+            Text = noteResponse.Text
+        };
+
+        return View(editNoteViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> EditNote(EditNoteViewModel model)
+    {
+        var noteRequest = new UpdateNoteRequest()
+        {
+            Id = model.Id,
+            Title = model.Title,
+            Text = model.Text
+        };
+        await _noteService.UpdateAsync(noteRequest);
+        
+        return RedirectToAction(nameof(Index));
+    }
+
     public IActionResult Privacy()
     {
         return View();

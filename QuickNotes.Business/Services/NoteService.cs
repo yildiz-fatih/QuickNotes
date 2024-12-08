@@ -61,11 +61,10 @@ public class NoteService : INoteService
 
     public async Task<GetNoteResponse> UpdateAsync(UpdateNoteRequest request)
     {
-        var note = new Note()
-        {
-            Title = request.Title,
-            Text = request.Text
-        };
+        var note = await _noteRepository.GetAsync(request.Id);
+        
+        note.Title = request.Title;
+        note.Text = request.Text;
         await _noteRepository.UpdateAsync(note);
 
         var noteResponse = new GetNoteResponse()

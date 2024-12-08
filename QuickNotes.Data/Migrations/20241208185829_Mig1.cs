@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace QuickNotes.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Mig1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,6 +21,7 @@ namespace QuickNotes.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "longtext", nullable: false),
                     Text = table.Column<string>(type: "longtext", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
