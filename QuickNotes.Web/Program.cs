@@ -1,6 +1,11 @@
+using QuickNotes.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDataServices(builder.Configuration);
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
