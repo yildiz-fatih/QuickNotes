@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using QuickNotes.Business.DTOs.Note;
 using QuickNotes.Business.Services;
 using QuickNotes.Web.Models;
 
@@ -25,6 +26,24 @@ public class HomeController : Controller
         });
         
         return View(noteViewModels);
+    }
+
+    public IActionResult CreateNote()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateNote(CreateNoteViewModel model)
+    {
+        var noteRequest = new CreateNoteRequest()
+        {
+            Title = model.Title,
+            Text = model.Text
+        };
+        await _noteService.CreateAsync(noteRequest);
+        
+        return RedirectToAction(nameof(Index));
     }
 
     public IActionResult Privacy()

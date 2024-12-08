@@ -1,0 +1,36 @@
+<!-- Declares that the view is strongly typed to a specific model (CreateNoteViewModel) -->
+<!-- Razor helpers like asp-for rely on the model to generate the correct HTML attributes for the form -->
+@model CreateNoteViewModel
+
+@{
+    ViewData["Title"] = "New Note";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Create a New Note</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="CreateNote" method="post">
+                <div class="card my-3 shadow-sm">
+                    <!-- Card Header -->
+                    <div class="card-header">
+                        <input asp-for="Title" class="form-control" placeholder="Title..." />
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <textarea asp-for="Text" class="form-control" rows="5" placeholder="Text..."></textarea>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-end mt-3">
+                            <button type="submit" class="btn btn-primary me-2">Create</button>
+                            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

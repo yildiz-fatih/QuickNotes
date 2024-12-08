@@ -7,6 +7,11 @@
 <div class="text-center">
     <h1 class="display-4">All Notes</h1>
 
+    <!-- Create Note Button -->
+    <div class="d-flex justify-content-center mb-3">
+        <a href="/Home/CreateNote" class="btn btn-primary">Create Note...</a>
+    </div>
+
     <div class="row">
         <!-- Newest First -->
         @foreach (var note in Model.OrderByDescending(n => n.FormattedDateCreated))
