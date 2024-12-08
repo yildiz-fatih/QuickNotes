@@ -1,3 +1,4 @@
+using QuickNotes.Business;
 using QuickNotes.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddDataServices(builder.Configuration);
+builder.Services.AddBusinessServices();
 
 builder.Services.AddControllersWithViews();
 
