@@ -75,6 +75,13 @@ public class HomeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    public async Task<IActionResult> DeleteNote([FromRoute] int id)
+    {
+        await _noteService.DeleteAsync(id);
+        
+        return RedirectToAction(nameof(Index));
+    }
+
     public IActionResult Privacy()
     {
         return View();
