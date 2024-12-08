@@ -1,21 +1,30 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using QuickNotes.Business.Services;
 using QuickNotes.Web.Models;
 
 namespace QuickNotes.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly INoteService _noteService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(INoteService noteService)
     {
-        _logger = logger;
+        _noteService = noteService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var noteResponses = await _noteService.GetAllAsync();
+        var noteViewModels = noteResponses.Select(note => new NoteViewModel()
+        {
+            Title = note.Title,
+            Text = note.Text,
+            FormattedDateCreated = note.DateCreated.ToShortDateString()
+        });
+        
+        return View(noteViewModels);
     }
 
     public IActionResult Privacy()

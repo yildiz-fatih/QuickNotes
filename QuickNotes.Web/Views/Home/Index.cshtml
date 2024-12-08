@@ -1,8 +1,47 @@
-﻿@{
+﻿@model IEnumerable<NoteViewModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">All Notes</h1>
+
+    <div class="row">
+        <!-- Newest First -->
+        @foreach (var note in Model.OrderByDescending(n => n.FormattedDateCreated))
+        {
+            <div class="col-md-4">
+                <div class="card my-3 shadow-sm">
+                    <!-- Card Header -->
+                    <div class="card-header">
+                        <strong>@note.Title</strong>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <!-- Note Text -->
+                        <p class="card-text">@note.Text</p>
+
+                        <!-- Date at Bottom Right -->
+                        <div class="d-flex justify-content-end mt-3">
+                            <div class="date-box px-2 py-1 text-muted">
+                                <small>@note.FormattedDateCreated</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+<style>
+    .date-box {
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        background-color: #f9f9f9;
+        display: inline-block;
+        text-align: right;
+    }
+</style>
