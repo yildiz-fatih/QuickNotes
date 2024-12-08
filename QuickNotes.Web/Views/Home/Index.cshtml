@@ -12,7 +12,7 @@
 
     <div class="row">
         <!-- Newest First -->
-        @foreach (var note in Model.OrderByDescending(n => n.FormattedDateCreated))
+        @foreach (var note in Model.OrderByDescending(n => n.Id))
         {
             <div class="col-md-4">
                 <div class="card my-3 shadow-sm">
@@ -25,13 +25,17 @@
                     <div class="card-body">
                         <!-- Note Text -->
                         <p class="card-text">@note.Text</p>
+                        
+                        <div class="d-flex justify-content-between mt-3">
+                            <!-- Update Button -->
+                            <a href="/Home/EditNote/@note.Id" class="btn btn-warning btn-sm">Edit</a>
 
-                        <!-- Date at Bottom Right -->
-                        <div class="d-flex justify-content-end mt-3">
+                            <!-- Date Box -->
                             <div class="date-box px-2 py-1 text-muted">
                                 <small>@note.FormattedDateCreated</small>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

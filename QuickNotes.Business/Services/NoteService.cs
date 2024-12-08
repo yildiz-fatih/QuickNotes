@@ -18,6 +18,7 @@ public class NoteService : INoteService
         var notes = await _noteRepository.GetAllAsync();
         var noteResponses = notes.Select(note => new GetNoteResponse()
         {
+            Id = note.Id,
             Title = note.Title,
             Text = note.Text,
             DateCreated = note.DateCreated
@@ -31,6 +32,7 @@ public class NoteService : INoteService
         var note = await _noteRepository.GetAsync(id);
         var noteResponse = new GetNoteResponse()
         {
+            Id = note.Id,
             Title = note.Title,
             Text = note.Text,
             DateCreated = note.DateCreated

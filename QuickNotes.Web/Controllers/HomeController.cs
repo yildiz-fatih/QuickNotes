@@ -20,6 +20,7 @@ public class HomeController : Controller
         var noteResponses = await _noteService.GetAllAsync();
         var noteViewModels = noteResponses.Select(note => new NoteViewModel()
         {
+            Id = note.Id,
             Title = note.Title,
             Text = note.Text,
             FormattedDateCreated = note.DateCreated.ToShortDateString()
