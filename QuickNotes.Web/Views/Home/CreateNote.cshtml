@@ -17,13 +17,13 @@
                 <div class="card my-3 shadow-sm">
                     <!-- Card Header -->
                     <div class="card-header">
-                        <input asp-for="Title" class="form-control" placeholder="Title..." />
+                        <input asp-for="Title" class="form-control" placeholder="Title..." required />
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
 
                     <!-- Card Body -->
                     <div class="card-body">
-                        <textarea asp-for="Text" class="form-control" rows="5" placeholder="Text..."></textarea>
+                        <textarea asp-for="Text" class="form-control" rows="5" placeholder="Text..." required ></textarea>
                         <span asp-validation-for="Text" class="text-danger"></span>
 
                         <!-- Buttons -->
