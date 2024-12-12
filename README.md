@@ -42,17 +42,16 @@ I made this project to help myself transition from building ASP.NET Core Web API
 - Forms and Model Binding
 - Basic Routing
 - Tag Helpers
+- Validation
 
 ---
 
 ## **What Next...**
 ### **to learn**
-- Validation
 - Advanced Routing
 - Partial Views and View Components
 - ViewData, ViewBag, TempData...
 ### **to do**
-- Validation
 - Filters
 - Custom Error Pages
 - Authentication and Authorization
