@@ -1,3 +1,5 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 <!-- Declares that the view is strongly typed to a specific model (CreateNoteViewModel) -->
 <!-- Razor helpers like asp-for rely on the model to generate the correct HTML attributes for the form -->
 @model CreateNoteViewModel
@@ -16,11 +18,13 @@
                     <!-- Card Header -->
                     <div class="card-header">
                         <input asp-for="Title" class="form-control" placeholder="Title..." />
+                        <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
 
                     <!-- Card Body -->
                     <div class="card-body">
                         <textarea asp-for="Text" class="form-control" rows="5" placeholder="Text..."></textarea>
+                        <span asp-validation-for="Text" class="text-danger"></span>
 
                         <!-- Buttons -->
                         <div class="d-flex justify-content-end mt-3">

@@ -37,6 +37,12 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateNote(CreateNoteViewModel model)
     {
+        if (!ModelState.IsValid)
+        {
+            // If validation fails, show the same form with error messages.
+            return View(model);
+        }
+        
         var noteRequest = new CreateNoteRequest()
         {
             Title = model.Title,
