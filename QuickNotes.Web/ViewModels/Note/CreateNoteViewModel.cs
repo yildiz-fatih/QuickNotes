@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace QuickNotes.Web.Models;
+namespace QuickNotes.Web.ViewModels.Note;
 
 public class CreateNoteViewModel
 {

@@ -1,5 +1,4 @@
-namespace QuickNotes.Web.Models;
-
+namespace QuickNotes.Web.ViewModels.Note;
 public class NoteViewModel
 {
     public int Id { get; set; }

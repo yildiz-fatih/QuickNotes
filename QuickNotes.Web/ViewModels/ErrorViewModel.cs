@@ -1,4 +1,4 @@
-namespace QuickNotes.Web.Models;
+namespace QuickNotes.Web.ViewModels;
 
 public class ErrorViewModel
 {

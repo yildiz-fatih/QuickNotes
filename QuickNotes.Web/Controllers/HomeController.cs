@@ -2,7 +2,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using QuickNotes.Business.DTOs.Note;
 using QuickNotes.Business.Services;
-using QuickNotes.Web.Models;
+using QuickNotes.Web.ViewModels;
+using QuickNotes.Web.ViewModels.Note;
 
 namespace QuickNotes.Web.Controllers;
 

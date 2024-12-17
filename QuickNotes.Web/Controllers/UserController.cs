@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuickNotes.Data.Entities;
-using QuickNotes.Web.Models;
+using QuickNotes.Web.ViewModels.User;
 
 namespace QuickNotes.Web.Controllers;
 
