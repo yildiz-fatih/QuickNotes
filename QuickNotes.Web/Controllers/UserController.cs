@@ -1,22 +1,19 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using QuickNotes.Data.Entities;
+using QuickNotes.Business.DTOs.User;
+using QuickNotes.Business.Services;
 using QuickNotes.Web.ViewModels.User;
 
 namespace QuickNotes.Web.Controllers;
 
 public class UserController : Controller
 {
-    private readonly UserManager<AppUser> _userManager;
-    private readonly SignInManager<AppUser> _signInManager;
+    private readonly IUserService _userService;
 
-    public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+    public UserController(IUserService userService)
     {
-        _userManager = userManager;
-        _signInManager = signInManager;
+        _userService = userService;
     }
-
+    
     public IActionResult Index()
     {
         return View();
@@ -32,18 +29,18 @@ public class UserController : Controller
     {
         if (ModelState.IsValid)
         {
-            var appUser = new AppUser()
+            var registerResult = await _userService.RegisterAsync(new RegisterUserRequest()
             {
                 FullName = viewModel.FullName,
                 UserName = viewModel.UserName,
-                Email = viewModel.Email
-            };
+                Email = viewModel.Email,
+                Password = viewModel.Password,
+            });
             
-            var result = await _userManager.CreateAsync(appUser, viewModel.Password);
-            if (result.Succeeded)
+            if (registerResult.Succeeded)
                 return RedirectToAction("Index");
             else
-                result.Errors.ToList().ForEach(e => ModelState.AddModelError(e.Code, e.Description));
+                registerResult.Errors.ToList().ForEach(e => ModelState.AddModelError(e.Code, e.Description));
         }
         
         return View(viewModel);
@@ -59,23 +56,24 @@ public class UserController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = await _userManager.FindByEmailAsync(viewModel.Email);
-            if (user != null)
-            {
-                await _signInManager.SignOutAsync();
-                
-                var result =
-                    await _signInManager.PasswordSignInAsync(user, viewModel.Password, viewModel.Persistent, viewModel.Lock);
-                if (result.Succeeded)
+            var loginResult =
+                await _userService.LoginAsync(new LoginUserRequest()
                 {
-                    return RedirectToAction("Index");
-                }
+                    Email = viewModel.Email,
+                    Password = viewModel.Password,
+                    Persistent = viewModel.Persistent,
+                    Lock = viewModel.Lock
+                });
+            if (loginResult.Succeeded)
+            {
+                return RedirectToAction("Index");
             }
             else
             {
                 ModelState.AddModelError("", "Invalid login attempt.");
             }
         }
+        
         return View(viewModel);
     }
 }
