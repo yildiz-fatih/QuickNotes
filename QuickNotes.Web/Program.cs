@@ -7,6 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddBusinessServices();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = new PathString("/User/LogIn");
+    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+    options.Cookie = new CookieBuilder
+    {
+        Name = "QuickNotesAuthCookie",
+        HttpOnly = false,
+        SameSite = SameSiteMode.Lax,
+        SecurePolicy = CookieSecurePolicy.Always
+    };
+    options.SlidingExpiration = true;
+});
 
 builder.Services.AddControllersWithViews();
 

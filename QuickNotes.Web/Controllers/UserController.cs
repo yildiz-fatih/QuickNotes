@@ -9,10 +9,12 @@ namespace QuickNotes.Web.Controllers;
 public class UserController : Controller
 {
     private readonly UserManager<AppUser> _userManager;
+    private readonly SignInManager<AppUser> _signInManager;
 
-    public UserController(UserManager<AppUser> userManager)
+    public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
     {
         _userManager = userManager;
+        _signInManager = signInManager;
     }
 
     public IActionResult Index()
@@ -44,6 +46,36 @@ public class UserController : Controller
                 result.Errors.ToList().ForEach(e => ModelState.AddModelError(e.Code, e.Description));
         }
         
+        return View(viewModel);
+    }
+
+    public IActionResult LogIn()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> LogIn(LoginViewModel viewModel)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.FindByEmailAsync(viewModel.Email);
+            if (user != null)
+            {
+                await _signInManager.SignOutAsync();
+                
+                var result =
+                    await _signInManager.PasswordSignInAsync(user, viewModel.Password, viewModel.Persistent, viewModel.Lock);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Invalid login attempt.");
+            }
+        }
         return View(viewModel);
     }
 }
