@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuickNotes.Business.DTOs.Note;
 using QuickNotes.Business.Services;
@@ -7,6 +9,7 @@ using QuickNotes.Web.ViewModels.Note;
 
 namespace QuickNotes.Web.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
     private readonly INoteService _noteService;
@@ -15,10 +18,12 @@ public class HomeController : Controller
     {
         _noteService = noteService;
     }
-
+    
     public async Task<IActionResult> Index()
     {
-        var noteResponses = await _noteService.GetAllAsync();
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        
+        var noteResponses = await _noteService.GetAllByUserIdAsync(userId);
         var noteViewModels = noteResponses.Select(note => new NoteViewModel()
         {
             Id = note.Id,
@@ -44,10 +49,13 @@ public class HomeController : Controller
             return View(model);
         }
         
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        
         var noteRequest = new CreateNoteRequest()
         {
             Title = model.Title,
-            Text = model.Text
+            Text = model.Text,
+            AppUserId = userId
         };
         await _noteService.CreateAsync(noteRequest);
         
@@ -56,7 +64,9 @@ public class HomeController : Controller
 
     public async Task<IActionResult> EditNote([FromRoute] int id)
     {
-        var noteResponse = await _noteService.GetAsync(id);
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        
+        var noteResponse = await _noteService.GetByUserIdAsync(id, userId);
 
         var editNoteViewModel = new EditNoteViewModel()
         {
@@ -71,11 +81,14 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> EditNote(EditNoteViewModel model)
     {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        
         var noteRequest = new UpdateNoteRequest()
         {
             Id = model.Id,
             Title = model.Title,
-            Text = model.Text
+            Text = model.Text,
+            AppUserId = userId
         };
         await _noteService.UpdateAsync(noteRequest);
         

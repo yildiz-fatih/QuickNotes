@@ -4,8 +4,8 @@ namespace QuickNotes.Business.Services;
 
 public interface INoteService
 {
-    public Task<IEnumerable<GetNoteResponse>> GetAllAsync();
-    public Task<GetNoteResponse> GetAsync(int id);
+    public Task<IEnumerable<GetNoteResponse>> GetAllByUserIdAsync(int userId);
+    public Task<GetNoteResponse> GetByUserIdAsync(int id, int userId);
     public Task<GetNoteResponse> CreateAsync(CreateNoteRequest request);
     public Task<GetNoteResponse> UpdateAsync(UpdateNoteRequest request);
     public Task<bool> DeleteAsync(int id);

@@ -12,14 +12,17 @@ public class NoteRepository : INoteRepository
         _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<Note>> GetAllAsync()
+    public async Task<IEnumerable<Note>> GetAllByUserIdAsync(int userId)
     {
-        return await _dbContext.Notes.ToListAsync();
+        return await _dbContext.Notes
+            .Where(note => note.AppUserId == userId)
+            .ToListAsync();
     }
 
-    public async Task<Note> GetAsync(int id)
+    public async Task<Note> GetByUserIdAsync(int id, int userId)
     {
-        return await _dbContext.Notes.FindAsync(id);
+        return await _dbContext.Notes
+            .SingleOrDefaultAsync(note => note.Id == id && note.AppUserId == userId);
     }
 
     public async Task<Note> CreateAsync(Note note)

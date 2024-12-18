@@ -11,7 +11,7 @@ using QuickNotes.Data;
 namespace QuickNotes.Data.Migrations
 {
     [DbContext(typeof(QuickNotesDbContext))]
-    [Migration("20241216033454_Mig")]
+    [Migration("20241218074423_Mig")]
     partial class Mig
     {
         /// <inheritdoc />
@@ -226,6 +226,9 @@ namespace QuickNotes.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
@@ -238,6 +241,8 @@ namespace QuickNotes.Data.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Notes");
                 });
@@ -291,6 +296,22 @@ namespace QuickNotes.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("QuickNotes.Data.Entities.Note", b =>
+                {
+                    b.HasOne("QuickNotes.Data.Entities.AppUser", "AppUser")
+                        .WithMany("Notes")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("QuickNotes.Data.Entities.AppUser", b =>
+                {
+                    b.Navigation("Notes");
                 });
 #pragma warning restore 612, 618
         }

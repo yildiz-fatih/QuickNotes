@@ -13,29 +13,31 @@ public class NoteService : INoteService
         _noteRepository = noteRepository;
     }
     
-    public async Task<IEnumerable<GetNoteResponse>> GetAllAsync()
+    public async Task<IEnumerable<GetNoteResponse>> GetAllByUserIdAsync(int userId)
     {
-        var notes = await _noteRepository.GetAllAsync();
+        var notes = await _noteRepository.GetAllByUserIdAsync(userId);
         var noteResponses = notes.Select(note => new GetNoteResponse()
         {
             Id = note.Id,
             Title = note.Title,
             Text = note.Text,
-            DateCreated = note.DateCreated
+            DateCreated = note.DateCreated,
+            AppUserId = note.AppUserId
         }).ToList();
         
         return noteResponses;
     }
 
-    public async Task<GetNoteResponse> GetAsync(int id)
+    public async Task<GetNoteResponse> GetByUserIdAsync(int id, int userId)
     {
-        var note = await _noteRepository.GetAsync(id);
+        var note = await _noteRepository.GetByUserIdAsync(id, userId);
         var noteResponse = new GetNoteResponse()
         {
             Id = note.Id,
             Title = note.Title,
             Text = note.Text,
-            DateCreated = note.DateCreated
+            DateCreated = note.DateCreated,
+            AppUserId = note.AppUserId
         };
 
         return noteResponse;
@@ -47,7 +49,8 @@ public class NoteService : INoteService
         {
             Title = request.Title,
             Text = request.Text,
-            DateCreated = DateTime.Now
+            DateCreated = DateTime.Now,
+            AppUserId = request.AppUserId
         };
         await _noteRepository.CreateAsync(note);
 
@@ -55,7 +58,8 @@ public class NoteService : INoteService
         {
             Title = note.Title,
             Text = note.Text,
-            DateCreated = note.DateCreated
+            DateCreated = note.DateCreated,
+            AppUserId = note.AppUserId
         };
         
         return noteResponse;
@@ -63,7 +67,7 @@ public class NoteService : INoteService
 
     public async Task<GetNoteResponse> UpdateAsync(UpdateNoteRequest request)
     {
-        var note = await _noteRepository.GetAsync(request.Id);
+        var note = await _noteRepository.GetByUserIdAsync(request.Id, request.AppUserId);
         
         note.Title = request.Title;
         note.Text = request.Text;
@@ -73,7 +77,8 @@ public class NoteService : INoteService
         {
             Title = note.Title,
             Text = note.Text,
-            DateCreated = note.DateCreated
+            DateCreated = note.DateCreated,
+            AppUserId = note.AppUserId
         };
         
         return noteResponse;
