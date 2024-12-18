@@ -7,7 +7,7 @@
 <div class="text-center">
     <!-- Create Note Button -->
     <div class="d-flex justify-content-center mb-3">
-        <a href="/Note/CreateNote" class="btn btn-primary">Create Note...</a>
+        <a href="/Note/Create" class="btn btn-primary">Create Note...</a>
     </div>
 
     <div class="row">
@@ -30,8 +30,8 @@
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <!-- Buttons Section (Left-Aligned) -->
                             <div class="d-flex">
-                                <a asp-action="EditNote" asp-route-id="@note.Id" class="btn btn-warning me-2">Edit</a>
-                                <form asp-action="DeleteNote" method="post">
+                                <a asp-action="Edit" asp-route-id="@note.Id" class="btn btn-warning me-2">Edit</a>
+                                <form asp-action="Delete" method="post">
                                     <input type="hidden" name="id" value="@note.Id" />
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>

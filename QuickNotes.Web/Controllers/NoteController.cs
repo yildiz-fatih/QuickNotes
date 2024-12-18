@@ -33,13 +33,13 @@ public class NoteController : Controller
         return View(noteViewModels);
     }
     
-    public IActionResult CreateNote()
+    public IActionResult Create()
     {
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateNote(CreateNoteViewModel model)
+    public async Task<IActionResult> Create(CreateNoteViewModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -60,7 +60,7 @@ public class NoteController : Controller
         return RedirectToAction(nameof(Index));
     }
     
-    public async Task<IActionResult> EditNote([FromRoute] int id)
+    public async Task<IActionResult> Edit([FromRoute] int id)
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         
@@ -77,7 +77,7 @@ public class NoteController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> EditNote(EditNoteViewModel model)
+    public async Task<IActionResult> Edit(EditNoteViewModel model)
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         
@@ -94,7 +94,7 @@ public class NoteController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteNote([FromForm] int id)
+    public async Task<IActionResult> Delete([FromForm] int id)
     {
         await _noteService.DeleteAsync(id);
         
