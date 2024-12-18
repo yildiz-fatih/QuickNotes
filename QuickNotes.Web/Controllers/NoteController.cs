@@ -93,7 +93,8 @@ public class NoteController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> DeleteNote([FromRoute] int id)
+    [HttpPost]
+    public async Task<IActionResult> DeleteNote([FromForm] int id)
     {
         await _noteService.DeleteAsync(id);
         

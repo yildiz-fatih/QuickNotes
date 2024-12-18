@@ -31,7 +31,10 @@
                             <!-- Buttons Section (Left-Aligned) -->
                             <div class="d-flex">
                                 <a asp-action="EditNote" asp-route-id="@note.Id" class="btn btn-warning me-2">Edit</a>
-                                <a asp-action="DeleteNote" asp-route-id="@note.Id" class="btn btn-danger">Delete</a>
+                                <form asp-action="DeleteNote" method="post">
+                                    <input type="hidden" name="id" value="@note.Id" />
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
                             </div>
 
                             <!-- Date Section (Right-Aligned) -->
