@@ -41,9 +41,9 @@ public class NoteRepository : INoteRepository
         return note;
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteByUserIdAsync(int id, int userId)
     {
-        var note = await _dbContext.Notes.FindAsync(id);
+        var note = await _dbContext.Notes.SingleOrDefaultAsync(note => note.Id == id && note.AppUserId == userId);
         if (note == null) return false;
         
         _dbContext.Remove(note);

@@ -96,7 +96,9 @@ public class NoteController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete([FromForm] int id)
     {
-        await _noteService.DeleteAsync(id);
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        
+        await _noteService.DeleteByUserIdAsync(id, userId);
         
         return RedirectToAction(nameof(Index));
     }

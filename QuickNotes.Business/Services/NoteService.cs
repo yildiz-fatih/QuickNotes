@@ -84,9 +84,9 @@ public class NoteService : INoteService
         return noteResponse;
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteByUserIdAsync(int id, int userId)
     {
-        var isDeleted = await _noteRepository.DeleteAsync(id);
+        var isDeleted = await _noteRepository.DeleteByUserIdAsync(id, userId);
 
         return isDeleted;
     }

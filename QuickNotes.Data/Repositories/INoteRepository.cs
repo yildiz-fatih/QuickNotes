@@ -8,5 +8,5 @@ public interface INoteRepository
     public Task<Note> GetByUserIdAsync(int id, int userId);
     public Task<Note> CreateAsync(Note note);
     public Task<Note> UpdateAsync(Note note);
-    public Task<bool> DeleteAsync(int id);
+    public Task<bool> DeleteByUserIdAsync(int id, int userId);
 }
