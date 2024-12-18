@@ -19,7 +19,7 @@ public class NoteController : Controller
     
     public async Task<IActionResult> Index()
     {
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var userId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         
         var noteResponses = await _noteService.GetAllByUserIdAsync(userId);
         var noteViewModels = noteResponses.Select(note => new NoteViewModel()
@@ -47,7 +47,7 @@ public class NoteController : Controller
             return View(model);
         }
         
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var userId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         
         var noteRequest = new CreateNoteRequest()
         {
@@ -62,7 +62,7 @@ public class NoteController : Controller
     
     public async Task<IActionResult> Edit([FromRoute] int id)
     {
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var userId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         
         var noteResponse = await _noteService.GetByUserIdAsync(id, userId);
 
@@ -79,7 +79,7 @@ public class NoteController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(EditNoteViewModel model)
     {
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var userId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         
         var noteRequest = new UpdateNoteRequest()
         {
@@ -96,7 +96,7 @@ public class NoteController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete([FromForm] int id)
     {
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var userId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         
         await _noteService.DeleteByUserIdAsync(id, userId);
         
