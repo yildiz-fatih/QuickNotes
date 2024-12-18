@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuickNotes.Business.DTOs.User;
 using QuickNotes.Business.Services;
@@ -12,11 +13,6 @@ public class UserController : Controller
     public UserController(IUserService userService)
     {
         _userService = userService;
-    }
-    
-    public IActionResult Index()
-    {
-        return View();
     }
 
     public IActionResult SignUp()
@@ -38,7 +34,7 @@ public class UserController : Controller
             });
             
             if (registerResult.Succeeded)
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             else
                 registerResult.Errors.ToList().ForEach(e => ModelState.AddModelError(e.Code, e.Description));
         }
@@ -66,7 +62,7 @@ public class UserController : Controller
                 });
             if (loginResult.Succeeded)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Note");
             }
             else
             {
@@ -75,5 +71,14 @@ public class UserController : Controller
         }
         
         return View(viewModel);
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> LogOut()
+    {
+        await _userService.LogOutAsync();
+        
+        return RedirectToAction("Index", "Home");
     }
 }

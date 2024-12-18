@@ -40,4 +40,9 @@ public class UserService : IUserService
 
         return SignInResult.Failed;
     }
+
+    public async Task LogOutAsync()
+    {
+        await _signInManager.SignOutAsync();
+    }
 }

@@ -5,54 +5,12 @@
 }
 
 <div class="text-center">
-    <!-- Create Note Button -->
-    <div class="d-flex justify-content-center mb-3">
-        <a href="/Home/CreateNote" class="btn btn-primary">Create Note...</a>
-    </div>
-
-    <div class="row">
-        <!-- Newest First -->
-        @foreach (var note in Model.OrderByDescending(n => n.Id))
-        {
-            <div class="col-md-4">
-                <div class="card my-3 shadow-sm">
-                    <!-- Card Header -->
-                    <div class="card-header">
-                        <strong>@note.Title</strong>
-                    </div>
-
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <!-- Note Text -->
-                        <p class="card-text">@note.Text</p>
-
-                        <!-- Actions and Date -->
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <!-- Buttons Section (Left-Aligned) -->
-                            <div class="d-flex">
-                                <a asp-action="EditNote" asp-route-id="@note.Id" class="btn btn-warning me-2">Edit</a>
-                                <a asp-action="DeleteNote" asp-route-id="@note.Id" class="btn btn-danger">Delete</a>
-                            </div>
-
-                            <!-- Date Section (Right-Aligned) -->
-                            <div class="date-box px-2 py-1 text-muted">
-                                <small>@note.FormattedDateCreated</small>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-</div>
-
-<style>
-    .date-box {
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        background-color: #f9f9f9;
-        display: inline-block;
-        text-align: right;
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h1>Welcome @User.Identity.Name</h1>
     }
-</style>
+    else
+    {
+        <h1>Welcome! Log in or sign up to use QuickNotes!</h1>
+    }
+</div>
