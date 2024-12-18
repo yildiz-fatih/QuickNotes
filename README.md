@@ -1,9 +1,5 @@
 # **QuickNotes**
 
-## **Why I Did This?**
-I made this project to help myself transition from building ASP.NET Core Web APIs to ASP.NET Core MVC.
-
----
 ## **How to Use the App**
 
 ### **Prerequisites**
@@ -32,26 +28,3 @@ I made this project to help myself transition from building ASP.NET Core Web API
    ```
 
 5. Open the application in your browser at `http://localhost:5127` (or the port specified in the console).
-
----
-
-## **What I Learned**
-- MVC Controllers and Action Methods
-- Razor Views
-- ViewModels
-- Forms and Model Binding
-- Basic Routing
-- Tag Helpers
-- Validation
-
----
-
-## **What Next...**
-### **to learn**
-- Advanced Routing
-- Partial Views and View Components
-- ViewData, ViewBag, TempData...
-### **to do**
-- Filters
-- Custom Error Pages
-- Authentication and Authorization
