@@ -7,25 +7,36 @@ namespace QuickNotes.Business.Services;
 public class UserService : IUserService
 {
     private readonly UserManager<AppUser> _userManager;
+    private readonly RoleManager<AppRole> _roleManager;
     private readonly SignInManager<AppUser> _signInManager;
 
-    public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+    public UserService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
         _signInManager = signInManager;
     }
 
     public async Task<IdentityResult> RegisterAsync(RegisterUserRequest registerUserRequest)
-    {
-        var appUser = new AppUser()
         {
-            FullName = registerUserRequest.FullName,
-            UserName = registerUserRequest.UserName,
-            Email = registerUserRequest.Email
-        };
-            
-        return await _userManager.CreateAsync(appUser, registerUserRequest.Password);
-    }
+            var appUser = new AppUser()
+            {
+                FullName = registerUserRequest.FullName,
+                UserName = registerUserRequest.UserName,
+                Email = registerUserRequest.Email
+            };
+                
+            var createResult = await _userManager.CreateAsync(appUser, registerUserRequest.Password);
+            if (!createResult.Succeeded)
+            {
+                return createResult;
+            }
+
+            // Assign the role to the user
+            await _userManager.AddToRoleAsync(appUser, registerUserRequest.RoleSelected);
+
+            return IdentityResult.Success;
+        }
 
     public async Task<SignInResult> LoginAsync(LoginUserRequest loginUserRequest)
     {
@@ -35,7 +46,7 @@ public class UserService : IUserService
             await _signInManager.SignOutAsync();
 
             return await _signInManager.PasswordSignInAsync(user, loginUserRequest.Password,
-                loginUserRequest.Persistent, loginUserRequest.Lock);
+                loginUserRequest.RememberMe, false);
         }
 
         return SignInResult.Failed;

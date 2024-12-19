@@ -1,8 +1,8 @@
-@model AppUserViewModel
+@model QuickNotes.Web.ViewModels.User.SignUpViewModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-ViewData["Title"] = "Sign Up";
+    ViewData["Title"] = "Sign Up";
 }
 
 <div class="text-center">
@@ -17,7 +17,7 @@ ViewData["Title"] = "Sign Up";
                     <!-- Card Header -->
                     <div class="card-header">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
-                        <!-- You can add a header title here if needed -->
+                        <!-- Optional: Add a header title here if needed -->
                     </div>
 
                     <!-- Card Body -->
@@ -44,6 +44,21 @@ ViewData["Title"] = "Sign Up";
                         <div class="mb-3">
                             <input asp-for="Password" type="password" class="form-control" placeholder="Password..." required />
                             <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <!-- Password Confirmation Field -->
+                        <div class="mb-3">
+                            <input asp-for="PasswordConfirm" type="password" class="form-control" placeholder="Confirm Password..." required />
+                            <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+                        </div>
+
+                        <!-- Role Selection Dropdown -->
+                        <div class="mb-3">
+                            <label asp-for="RoleSelected" class="form-label">Select Role</label>
+                            <select asp-for="RoleSelected" class="form-control" asp-items="ViewBag.Roles">
+                                <option value="">-- Select Role --</option>
+                            </select>
+                            <span asp-validation-for="RoleSelected" class="text-danger"></span>
                         </div>
 
                         <!-- Buttons -->

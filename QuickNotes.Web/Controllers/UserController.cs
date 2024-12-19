@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using QuickNotes.Business.DTOs.User;
 using QuickNotes.Business.Services;
+using QuickNotes.Data.Entities;
 using QuickNotes.Web.ViewModels.User;
 
 namespace QuickNotes.Web.Controllers;
@@ -9,19 +13,26 @@ namespace QuickNotes.Web.Controllers;
 public class UserController : Controller
 {
     private readonly IUserService _userService;
+    private readonly RoleManager<AppRole> _roleManager;
 
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, RoleManager<AppRole> roleManager)
     {
         _userService = userService;
+        _roleManager = roleManager;
     }
-
-    public IActionResult SignUp()
+    
+    public async Task<IActionResult> SignUp()
     {
-        return View();
+        // Retrieve all role names from the database
+        var roles = await _roleManager.Roles.OrderBy(r => r.Name).ToListAsync();
+        ViewBag.Roles = new SelectList(roles, "Name", "Name");
+
+        var viewModel = new SignUpViewModel();
+        return View(viewModel);
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignUp(AppUserViewModel viewModel)
+    public async Task<IActionResult> SignUp(SignUpViewModel viewModel)
     {
         if (ModelState.IsValid)
         {
@@ -31,6 +42,7 @@ public class UserController : Controller
                 UserName = viewModel.UserName,
                 Email = viewModel.Email,
                 Password = viewModel.Password,
+                RoleSelected = viewModel.RoleSelected
             });
             
             if (registerResult.Succeeded)
@@ -57,8 +69,7 @@ public class UserController : Controller
                 {
                     Email = viewModel.Email,
                     Password = viewModel.Password,
-                    Persistent = viewModel.Persistent,
-                    Lock = viewModel.Lock
+                    RememberMe = viewModel.RememberMe,
                 });
             if (loginResult.Succeeded)
             {

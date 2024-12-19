@@ -10,6 +10,5 @@ public class LoginViewModel
     [Required(ErrorMessage = "Please enter your password")]
     [DataType(DataType.Password, ErrorMessage = "Please enter a valid password")]
     public string Password { get; set; }
-    public bool Persistent { get; set; }
-    public bool Lock { get; set; }
+    public bool RememberMe { get; set; }
 }
