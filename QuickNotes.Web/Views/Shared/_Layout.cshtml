@@ -51,11 +51,21 @@
                     <ul class="navbar-nav ms-auto">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
+                            <li class="nav-item d-flex align-items-center">
+                                <span class="navbar-text me-3">Hello @User.Identity.Name</span>
+                                
+                                @if (!User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="btn btn-outline-dark me-2" asp-controller="User" asp-action="PromoteToAdmin">Promote to Admin</a>
+                                    </li>
+                                }
+                                
                                 <form method="post" asp-controller="User" asp-action="LogOut" class="d-inline">
-                                    <button type="submit" class="btn btn-outline-dark me-2">Log Out</button>
+                                    <button type="submit" class="btn btn-outline-dark">Log Out</button>
                                 </form>
                             </li>
+
                         }
                         else
                         {

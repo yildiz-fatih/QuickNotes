@@ -8,4 +8,5 @@ public interface IUserService
     public Task<IdentityResult> RegisterAsync(RegisterUserRequest registerUserRequest);
     public Task<SignInResult> LoginAsync(LoginUserRequest loginUserRequest);
     public Task LogOutAsync();
+    public Task<IdentityResult> PromoteToAdminAsync(PromoteToAdminRequest promoteToAdminRequest);
 }

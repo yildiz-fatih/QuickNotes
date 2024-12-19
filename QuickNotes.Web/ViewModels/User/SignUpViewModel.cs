@@ -18,7 +18,4 @@ public class SignUpViewModel
     [DataType(DataType.Password, ErrorMessage = "Please enter a password")]
     [Compare(nameof(Password), ErrorMessage = "Please enter a password")]
     public string PasswordConfirm { get; set; }
-    
-    [Required(ErrorMessage = "Please select a role")]
-    public string RoleSelected { get; set; }
 }

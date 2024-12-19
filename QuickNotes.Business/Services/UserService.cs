@@ -32,8 +32,8 @@ public class UserService : IUserService
                 return createResult;
             }
 
-            // Assign the role to the user
-            await _userManager.AddToRoleAsync(appUser, registerUserRequest.RoleSelected);
+            // Assign the default role of "User"
+            await _userManager.AddToRoleAsync(appUser, "User");
 
             return IdentityResult.Success;
         }
@@ -55,5 +55,30 @@ public class UserService : IUserService
     public async Task LogOutAsync()
     {
         await _signInManager.SignOutAsync();
+    }
+
+    public async Task<IdentityResult> PromoteToAdminAsync(PromoteToAdminRequest promoteToAdminRequest)
+    {
+        if (promoteToAdminRequest.AdminSecretKey != "hello")
+        {
+            return IdentityResult.Failed(new IdentityError { Description = "Invalid secret key" });
+        }
+
+        var user = await _userManager.FindByIdAsync(promoteToAdminRequest.AppUserId.ToString());
+
+        // Remove the user from the "User" role
+        if (await _userManager.IsInRoleAsync(user, "User"))
+        {
+            await _userManager.RemoveFromRoleAsync(user, "User");
+        }
+
+        // Add the user to the "Admin" role
+        await _userManager.AddToRoleAsync(user, "Admin");
+        
+        // Refresh the user’s sign-in so the role claims update
+        await _signInManager.SignOutAsync();
+        await _signInManager.SignInAsync(user, false);
+        
+        return IdentityResult.Success;
     }
 }

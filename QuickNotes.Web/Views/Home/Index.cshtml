@@ -1,16 +1,29 @@
-﻿@model IEnumerable<NoteViewModel>
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@using QuickNotes.Data.Entities
+@inject RoleManager<AppRole> RoleManager
 
 @{
-    ViewData["Title"] = "Home Page";
+ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     @if (User.Identity.IsAuthenticated)
     {
-        <h1>Welcome @User.Identity.Name</h1>
+    <h1>Welcome @User.Identity.Name</h1>
+    <p>You are in the following roles:</p>
+    <ul>
+        @foreach (var role in await RoleManager.Roles.ToListAsync())
+        {
+        @if (User.IsInRole(role.Name))
+        {
+        <li>@role.Name</li>
+        }
+        }
+    </ul>
     }
     else
     {
-        <h1>Welcome! Log in or sign up to use QuickNotes!</h1>
+    <h1>Welcome! Log in or sign up to use QuickNotes!</h1>
     }
 </div>

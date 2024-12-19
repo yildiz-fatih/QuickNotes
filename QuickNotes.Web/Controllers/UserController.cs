@@ -1,11 +1,8 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using QuickNotes.Business.DTOs.User;
 using QuickNotes.Business.Services;
-using QuickNotes.Data.Entities;
 using QuickNotes.Web.ViewModels.User;
 
 namespace QuickNotes.Web.Controllers;
@@ -13,22 +10,14 @@ namespace QuickNotes.Web.Controllers;
 public class UserController : Controller
 {
     private readonly IUserService _userService;
-    private readonly RoleManager<AppRole> _roleManager;
-
-    public UserController(IUserService userService, RoleManager<AppRole> roleManager)
+    public UserController(IUserService userService)
     {
         _userService = userService;
-        _roleManager = roleManager;
     }
     
-    public async Task<IActionResult> SignUp()
+    public IActionResult SignUp()
     {
-        // Retrieve all role names from the database
-        var roles = await _roleManager.Roles.OrderBy(r => r.Name).ToListAsync();
-        ViewBag.Roles = new SelectList(roles, "Name", "Name");
-
-        var viewModel = new SignUpViewModel();
-        return View(viewModel);
+        return View();
     }
 
     [HttpPost]
@@ -42,7 +31,6 @@ public class UserController : Controller
                 UserName = viewModel.UserName,
                 Email = viewModel.Email,
                 Password = viewModel.Password,
-                RoleSelected = viewModel.RoleSelected
             });
             
             if (registerResult.Succeeded)
@@ -89,6 +77,35 @@ public class UserController : Controller
     public async Task<IActionResult> LogOut()
     {
         await _userService.LogOutAsync();
+        
+        return RedirectToAction("Index", "Home");
+    }
+
+    public IActionResult PromoteToAdmin()
+    {
+        return View();
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> PromoteToAdmin(PromoteToAdminViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(viewModel);
+        }
+
+        var result = await _userService.PromoteToAdminAsync(new PromoteToAdminRequest()
+        {
+            AppUserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+            AdminSecretKey = viewModel.AdminSecretKey
+        });
+        
+        if (!result.Succeeded)
+        {
+            ModelState.AddModelError(string.Empty, "Invalid secret key");
+            return View(viewModel);
+        }
         
         return RedirectToAction("Index", "Home");
     }

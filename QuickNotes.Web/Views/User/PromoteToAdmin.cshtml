@@ -1,0 +1,41 @@
+@model PromoteToAdminViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+ViewData["Title"] = "Promote To Admin";
+}
+
+<div class="text-center">
+    <h3 class="display-4">Enter the secret key to be promoted to Admin:</h3>
+
+    <hr />
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="PromoteToAdmin" method="post">
+                <div class="card my-3 shadow-sm">
+                    <!-- Card Header -->
+                    <div class="card-header">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+                        <!-- You can add a header title here if needed -->
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <!-- Secret Key Field -->
+                        <div class="mb-3">
+                            <input asp-for="AdminSecretKey" type="text" class="form-control" placeholder="Very secret key..." required />
+                            <span asp-validation-for="AdminSecretKey" class="text-danger"></span>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-end mt-4">
+                            <button type="submit" class="btn btn-primary me-2">Submit</button>
+                            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

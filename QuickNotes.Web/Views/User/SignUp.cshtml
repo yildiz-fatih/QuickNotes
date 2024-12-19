@@ -52,15 +52,6 @@
                             <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
                         </div>
 
-                        <!-- Role Selection Dropdown -->
-                        <div class="mb-3">
-                            <label asp-for="RoleSelected" class="form-label">Select Role</label>
-                            <select asp-for="RoleSelected" class="form-control" asp-items="ViewBag.Roles">
-                                <option value="">-- Select Role --</option>
-                            </select>
-                            <span asp-validation-for="RoleSelected" class="text-danger"></span>
-                        </div>
-
                         <!-- Buttons -->
                         <div class="d-flex justify-content-end mt-4">
                             <button type="submit" class="btn btn-primary me-2">Sign Up</button>
