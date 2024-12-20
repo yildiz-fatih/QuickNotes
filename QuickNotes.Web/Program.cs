@@ -1,5 +1,6 @@
 using QuickNotes.Business;
 using QuickNotes.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,19 +8,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddBusinessServices();
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = new PathString("/User/LogIn");
-    options.ExpireTimeSpan = TimeSpan.FromHours(2);
-    options.Cookie = new CookieBuilder
+
+// Configure Authentication with Cookie
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
     {
-        Name = "QuickNotesAuthCookie",
-        HttpOnly = false,
-        SameSite = SameSiteMode.Lax,
-        SecurePolicy = CookieSecurePolicy.Always
-    };
-    options.SlidingExpiration = true;
-});
+        options.LoginPath = "/User/LogIn";
+        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+        options.Cookie = new CookieBuilder
+        {
+            Name = "QuickNotesAuthCookie",
+            HttpOnly = false,
+            SameSite = SameSiteMode.Lax,
+            SecurePolicy = CookieSecurePolicy.Always
+        };
+        options.SlidingExpiration = true;
+    });
 
 builder.Services.AddControllersWithViews();
 
@@ -29,7 +33,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -38,6 +41,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Enable Authentication and Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
