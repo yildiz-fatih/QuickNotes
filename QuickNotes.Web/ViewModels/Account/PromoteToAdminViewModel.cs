@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace QuickNotes.Web.ViewModels.User;
+namespace QuickNotes.Web.ViewModels.Account;
 
 public class PromoteToAdminViewModel
 {

@@ -1,6 +1,6 @@
-namespace QuickNotes.Business.DTOs.User;
+namespace QuickNotes.Business.DTOs.Account;
 
-public class LoginUserRequest
+public class LogInRequest
 {
     public string Email { get; set; }
     public string Password { get; set; }

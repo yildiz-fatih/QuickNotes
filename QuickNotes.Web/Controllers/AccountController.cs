@@ -1,18 +1,18 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using QuickNotes.Business.DTOs.User;
+using QuickNotes.Business.DTOs.Account;
 using QuickNotes.Business.Services;
-using QuickNotes.Web.ViewModels.User;
+using QuickNotes.Web.ViewModels.Account;
 
 namespace QuickNotes.Web.Controllers;
 
-public class UserController : Controller
+public class AccountController : Controller
 {
-    private readonly IUserService _userService;
-    public UserController(IUserService userService)
+    private readonly IAccountService _accountService;
+    public AccountController(IAccountService accountService)
     {
-        _userService = userService;
+        _accountService = accountService;
     }
     
     public IActionResult SignUp()
@@ -25,7 +25,7 @@ public class UserController : Controller
     {
         if (ModelState.IsValid)
         {
-            var registerResult = await _userService.RegisterAsync(new RegisterUserRequest()
+            var registerResult = await _accountService.RegisterAsync(new RegisterRequest()
             {
                 FullName = viewModel.FullName,
                 UserName = viewModel.UserName,
@@ -48,12 +48,12 @@ public class UserController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> LogIn(LoginViewModel viewModel)
+    public async Task<IActionResult> LogIn(LogInViewModel viewModel)
     {
         if (ModelState.IsValid)
         {
             var loginResult =
-                await _userService.LoginAsync(new LoginUserRequest()
+                await _accountService.LogInAsync(new LogInRequest()
                 {
                     Email = viewModel.Email,
                     Password = viewModel.Password,
@@ -76,7 +76,7 @@ public class UserController : Controller
     [HttpPost]
     public async Task<IActionResult> LogOut()
     {
-        await _userService.LogOutAsync();
+        await _accountService.LogOutAsync();
         
         return RedirectToAction("Index", "Home");
     }
@@ -95,7 +95,7 @@ public class UserController : Controller
             return View(viewModel);
         }
 
-        var result = await _userService.PromoteToAdminAsync(new PromoteToAdminRequest()
+        var result = await _accountService.PromoteToAdminAsync(new PromoteToAdminRequest()
         {
             AppUserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
             AdminSecretKey = viewModel.AdminSecretKey

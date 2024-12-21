@@ -8,7 +8,7 @@ public static class BusinessServiceRegistration
     public static IServiceCollection AddBusinessServices(this IServiceCollection services)
     {
         services.AddScoped<INoteService, NoteService>();
-        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IAccountService, AccountService>();
 
         return services;
     }

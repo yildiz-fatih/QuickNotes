@@ -13,7 +13,7 @@ builder.Services.AddBusinessServices();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/User/LogIn";
+        options.LoginPath = "/Account/LogIn";
         options.ExpireTimeSpan = TimeSpan.FromHours(2);
         options.Cookie = new CookieBuilder
         {

@@ -1,4 +1,4 @@
-namespace QuickNotes.Business.DTOs.User;
+namespace QuickNotes.Business.DTOs.Account;
 
 public class PromoteToAdminRequest
 {

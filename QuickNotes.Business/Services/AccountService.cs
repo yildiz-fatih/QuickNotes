@@ -1,32 +1,30 @@
 using Microsoft.AspNetCore.Identity;
-using QuickNotes.Business.DTOs.User;
+using QuickNotes.Business.DTOs.Account;
 using QuickNotes.Data.Entities;
 
 namespace QuickNotes.Business.Services;
 
-public class UserService : IUserService
+public class AccountService : IAccountService
 {
     private readonly UserManager<AppUser> _userManager;
-    private readonly RoleManager<AppRole> _roleManager;
     private readonly SignInManager<AppUser> _signInManager;
 
-    public UserService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager)
+    public AccountService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
         _signInManager = signInManager;
     }
 
-    public async Task<IdentityResult> RegisterAsync(RegisterUserRequest registerUserRequest)
+    public async Task<IdentityResult> RegisterAsync(RegisterRequest registerRequest)
         {
             var appUser = new AppUser()
             {
-                FullName = registerUserRequest.FullName,
-                UserName = registerUserRequest.UserName,
-                Email = registerUserRequest.Email
+                FullName = registerRequest.FullName,
+                UserName = registerRequest.UserName,
+                Email = registerRequest.Email
             };
                 
-            var createResult = await _userManager.CreateAsync(appUser, registerUserRequest.Password);
+            var createResult = await _userManager.CreateAsync(appUser, registerRequest.Password);
             if (!createResult.Succeeded)
             {
                 return createResult;
@@ -38,15 +36,15 @@ public class UserService : IUserService
             return IdentityResult.Success;
         }
 
-    public async Task<SignInResult> LoginAsync(LoginUserRequest loginUserRequest)
+    public async Task<SignInResult> LogInAsync(LogInRequest logInRequest)
     {
-        var user = await _userManager.FindByEmailAsync(loginUserRequest.Email);
+        var user = await _userManager.FindByEmailAsync(logInRequest.Email);
         if (user != null)
         {
             await _signInManager.SignOutAsync();
 
-            return await _signInManager.PasswordSignInAsync(user, loginUserRequest.Password,
-                loginUserRequest.RememberMe, false);
+            return await _signInManager.PasswordSignInAsync(user, logInRequest.Password,
+                logInRequest.RememberMe, false);
         }
 
         return SignInResult.Failed;
