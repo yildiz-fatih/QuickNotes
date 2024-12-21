@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuickNotes.Web.ViewModels;
 
@@ -12,6 +13,12 @@ public class HomeController : Controller
     }
 
     public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    [Authorize(Roles = "Admin")]
+    public IActionResult AdminOnlyAccessTest()
     {
         return View();
     }
