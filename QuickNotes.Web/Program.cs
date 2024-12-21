@@ -13,8 +13,8 @@ builder.Services.AddBusinessServices();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Account/LogIn";
-        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.LoginPath = "/Account/LogIn"; // This is for authentication (User is not authenticated)
+        options.AccessDeniedPath = "/Account/AccessDenied"; // This is for authorization (User is authenticated but unauthorized)
         options.ExpireTimeSpan = TimeSpan.FromHours(2);
         options.Cookie = new CookieBuilder
         {
