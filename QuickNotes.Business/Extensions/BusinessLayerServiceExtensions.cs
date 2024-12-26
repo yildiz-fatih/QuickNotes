@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using QuickNotes.Business.Services;
 
-namespace QuickNotes.Business;
+namespace QuickNotes.Business.Extensions;
 
 public static class BusinessLayerServiceExtensions
 {

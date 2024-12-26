@@ -1,6 +1,6 @@
-using QuickNotes.Business;
-using QuickNotes.Data;
-using QuickNotes.Web;
+using QuickNotes.Business.Extensions;
+using QuickNotes.Data.Extensions;
+using QuickNotes.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

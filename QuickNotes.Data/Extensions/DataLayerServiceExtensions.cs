@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using QuickNotes.Data.Entities;
 using QuickNotes.Data.Repositories;
 
-namespace QuickNotes.Data;
+namespace QuickNotes.Data.Extensions;
 
 public static class DataLayerServiceExtensions
 {

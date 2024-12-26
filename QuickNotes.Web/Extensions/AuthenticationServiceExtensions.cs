@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace QuickNotes.Web;
+namespace QuickNotes.Web.Extensions;
 
 public static class AuthenticationServiceExtensions
 {
