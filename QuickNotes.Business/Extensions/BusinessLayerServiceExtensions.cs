@@ -3,7 +3,7 @@ using QuickNotes.Business.Services;
 
 namespace QuickNotes.Business;
 
-public static class BusinessServiceRegistration
+public static class BusinessLayerServiceExtensions
 {
     public static IServiceCollection AddBusinessServices(this IServiceCollection services)
     {

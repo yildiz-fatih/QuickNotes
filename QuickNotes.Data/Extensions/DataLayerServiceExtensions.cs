@@ -7,7 +7,7 @@ using QuickNotes.Data.Repositories;
 
 namespace QuickNotes.Data;
 
-public static class DataServiceRegistration
+public static class DataLayerServiceExtensions
 {
     public static IServiceCollection AddDataServices(this IServiceCollection services, IConfiguration configuration)
     {

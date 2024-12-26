@@ -1,31 +1,13 @@
 using QuickNotes.Business;
 using QuickNotes.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using QuickNotes.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddAuthenticationServices();
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddBusinessServices();
-
-// Configure Authentication with Cookie
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Account/LogIn"; // This is for authentication (User is not authenticated)
-        options.AccessDeniedPath = "/Account/AccessDenied"; // This is for authorization (User is authenticated but unauthorized)
-        options.ExpireTimeSpan = TimeSpan.FromHours(2);
-        options.Cookie = new CookieBuilder
-        {
-            Name = "QuickNotesAuthCookie",
-            HttpOnly = false,
-            SameSite = SameSiteMode.Lax,
-            SecurePolicy = CookieSecurePolicy.Always
-        };
-        options.SlidingExpiration = true;
-    });
-
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
