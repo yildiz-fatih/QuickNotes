@@ -1,25 +1,19 @@
 @{
+    Layout = "_Layout";
     ViewData["Title"] = "Access Denied";
 }
 
-<div class="text-center">
-    <h3 class="display-4">Access Denied</h3>
+<div class="row">
+    <div class="col-md-8 offset-md-2 mt-5">
+        <div class="alert alert-danger" role="alert">
+            <h1>@ViewData["Title"]</h1>
+            <p class="mb-0">
+                You do not have permission to view this page.
+            </p>
+        </div>
 
-    <hr />
-
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card my-3 shadow-sm">
-                <!-- Card Header -->
-                <div class="card-header">
-                    <h5 class="text-danger">Unauthorized Access</h5>
-                </div>
-
-                <!-- Card Body -->
-                <div class="card-body">
-                    <p>You do not have permission to access this page.</p>
-                </div>
-            </div>
+        <div class="mt-3">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Return to Home</a>
         </div>
     </div>
 </div>

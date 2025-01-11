@@ -1,8 +1,10 @@
-using QuickNotes.Business.DTOs.Note;
+using QuickNotes.Business.DTOs.Note.Requests;
+using QuickNotes.Business.DTOs.Note.Responses;
+using QuickNotes.Business.Services.Interfaces;
 using QuickNotes.Data.Entities;
 using QuickNotes.Data.Repositories;
 
-namespace QuickNotes.Business.Services;
+namespace QuickNotes.Business.Services.Implementations;
 
 public class NoteService : INoteService
 {

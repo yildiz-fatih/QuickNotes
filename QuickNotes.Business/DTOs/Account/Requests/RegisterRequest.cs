@@ -1,4 +1,4 @@
-namespace QuickNotes.Business.DTOs.Account;
+namespace QuickNotes.Business.DTOs.Account.Requests;
 
 public class RegisterRequest
 {

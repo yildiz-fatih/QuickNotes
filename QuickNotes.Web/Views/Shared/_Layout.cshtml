@@ -43,9 +43,6 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
                         }
                     </ul>
                     <ul class="navbar-nav ms-auto">
@@ -61,19 +58,18 @@
                                     </li>
                                 }
                                 
-                                <form method="post" asp-controller="Account" asp-action="LogOut" class="d-inline">
-                                    <button type="submit" class="btn btn-outline-dark">Log Out</button>
+                                <form method="post" asp-controller="Account" asp-action="Logout" class="d-inline">
+                                    <button type="submit" class="btn btn-outline-dark">Logout</button>
                                 </form>
                             </li>
-
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="btn btn-outline-dark me-2" asp-controller="Account" asp-action="SignUp">Sign Up</a>
+                                <a class="btn btn-outline-dark me-2" asp-controller="Account" asp-action="Register">Register</a>
                             </li>
                             <li class="nav-item">
-                                <a class="btn btn-outline-dark" asp-controller="Account" asp-action="LogIn">Log In</a>
+                                <a class="btn btn-outline-dark" asp-controller="Account" asp-action="Login">Login</a>
                             </li>
                         }
                     </ul>
@@ -89,7 +85,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - QuickNotes.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; QuickNotes
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

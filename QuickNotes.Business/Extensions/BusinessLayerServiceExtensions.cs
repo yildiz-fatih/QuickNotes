@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using QuickNotes.Business.Services;
+using QuickNotes.Business.Services.Implementations;
+using QuickNotes.Business.Services.Interfaces;
 
 namespace QuickNotes.Business.Extensions;
 

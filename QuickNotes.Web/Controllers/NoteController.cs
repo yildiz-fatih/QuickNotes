@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using QuickNotes.Business.DTOs.Note;
-using QuickNotes.Business.Services;
+using QuickNotes.Business.DTOs.Note.Requests;
+using QuickNotes.Business.Services.Interfaces;
 using QuickNotes.Web.ViewModels.Note;
 
 namespace QuickNotes.Web.Controllers;

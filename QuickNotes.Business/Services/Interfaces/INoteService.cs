@@ -1,6 +1,7 @@
-using QuickNotes.Business.DTOs.Note;
+using QuickNotes.Business.DTOs.Note.Requests;
+using QuickNotes.Business.DTOs.Note.Responses;
 
-namespace QuickNotes.Business.Services;
+namespace QuickNotes.Business.Services.Interfaces;
 
 public interface INoteService
 {

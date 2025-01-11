@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using QuickNotes.Business.DTOs.Account;
-using QuickNotes.Business.Services;
+using QuickNotes.Business.DTOs.Account.Requests;
+using QuickNotes.Business.Services.Interfaces;
 using QuickNotes.Web.ViewModels.Account;
 
 namespace QuickNotes.Web.Controllers;
@@ -15,77 +15,89 @@ public class AccountController : Controller
         _accountService = accountService;
     }
     
-    public IActionResult SignUp()
+    public IActionResult Register()
     {
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignUp(SignUpViewModel viewModel)
+    public async Task<IActionResult> Register(RegisterViewModel viewModel)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            var registerResult = await _accountService.RegisterAsync(new RegisterRequest()
-            {
-                FullName = viewModel.FullName,
-                UserName = viewModel.UserName,
-                Email = viewModel.Email,
-                Password = viewModel.Password,
-            });
-            
-            if (registerResult.Succeeded)
-                return RedirectToAction("Index", "Home");
-            else
-                registerResult.Errors.ToList().ForEach(e => ModelState.AddModelError(e.Code, e.Description));
+            return View(viewModel);
+        }
+
+        var registerResponse = await _accountService.RegisterAsync(new RegisterRequest()
+        {
+            FullName = viewModel.FullName,
+            UserName = viewModel.UserName,
+            Email = viewModel.Email,
+            Password = viewModel.Password,
+        });
+        
+        if (registerResponse.Succeeded)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
+        foreach (var error in registerResponse.Errors)
+        {
+            ModelState.AddModelError(error.Code ?? string.Empty, error.Description);
         }
         
         return View(viewModel);
     }
 
-    public IActionResult LogIn()
+    public IActionResult Login()
     {
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> LogIn(LogInViewModel viewModel)
+    public async Task<IActionResult> Login(LoginViewModel viewModel)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            var loginResult =
-                await _accountService.LogInAsync(new LogInRequest()
-                {
-                    Email = viewModel.Email,
-                    Password = viewModel.Password,
-                    RememberMe = viewModel.RememberMe,
-                });
-            if (loginResult.Succeeded)
-            {
-                return RedirectToAction("Index", "Note");
-            }
-            else
-            {
-                ModelState.AddModelError("", "Invalid login attempt.");
-            }
+            return View(viewModel);
+        }
+
+        var loginResponse = await _accountService.LoginAsync(new LoginRequest()
+        {
+            Email      = viewModel.Email,
+            Password   = viewModel.Password,
+            RememberMe = viewModel.RememberMe
+        });
+
+        if (loginResponse.Succeeded)
+        {
+            return RedirectToAction("Index", "Home");
         }
         
+        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+
         return View(viewModel);
     }
 
     [Authorize]
     [HttpPost]
-    public async Task<IActionResult> LogOut()
+    public async Task<IActionResult> Logout()
     {
-        await _accountService.LogOutAsync();
+        await _accountService.LogoutAsync();
         
         return RedirectToAction("Index", "Home");
     }
 
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
+    
     public IActionResult PromoteToAdmin()
     {
         return View();
     }
-
+    
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> PromoteToAdmin(PromoteToAdminViewModel viewModel)
@@ -95,23 +107,21 @@ public class AccountController : Controller
             return View(viewModel);
         }
 
-        var result = await _accountService.PromoteToAdminAsync(new PromoteToAdminRequest()
+        var userId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+        var response = await _accountService.PromoteToAdminAsync(new PromoteToAdminRequest
         {
-            AppUserId = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+            AppUserId = userId,
             AdminSecretKey = viewModel.AdminSecretKey
         });
-        
-        if (!result.Succeeded)
+
+        if (!response.Succeeded)
         {
-            ModelState.AddModelError(string.Empty, "Invalid secret key");
+            var firstError = response.Errors.FirstOrDefault();
+            ModelState.AddModelError(string.Empty, firstError?.Description ?? "Invalid secret key");
             return View(viewModel);
         }
-        
-        return RedirectToAction("Index", "Home");
-    }
 
-    public IActionResult AccessDenied()
-    {
-        return View();
+        return RedirectToAction("Index", "Home");
     }
 }

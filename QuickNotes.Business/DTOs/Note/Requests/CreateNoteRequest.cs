@@ -1,8 +1,7 @@
-namespace QuickNotes.Business.DTOs.Note;
+namespace QuickNotes.Business.DTOs.Note.Requests;
 
-public class UpdateNoteRequest
+public class CreateNoteRequest
 {
-    public int Id { get; set; }
     public string Title { get; set; }
     public string Text { get; set; }
     public int AppUserId { get; set; }

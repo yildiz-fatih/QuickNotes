@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace QuickNotes.Web.ViewModels.Account;
 
-public class LogInViewModel
+public class LoginViewModel
 {
     [Required(ErrorMessage = "Please enter your email address")]
     [EmailAddress(ErrorMessage = "Please enter a valid email")]
